@@ -18,13 +18,14 @@
    let results = temp.results; // array of combinations of ores that add up to the totalMBWanted
    let max = temp.max; // max amount of metal you can make with the ore you have
    let hundredarray = temp.hundredarray; // array of combinations of ores that add up to 100mb
-   outputCalculator(totalMBWanted, results, max) // outputs everything in results and the max to the console
    ```
    ```js
-   // Ore1Ratio - percentage (0.0-1.0) of how much of ore1 you want in the alloy
-    // ore2Ratio - percentage (0.0-1.0) of how much of ore2 you want in the alloy
-    // prints how much of each ore you need to create of the alloy and the total it will make in the percentages given
-   TwoMetalAlloy(Ore1, Ore2, Ore1Ratio, ore2Ratio)
+    outputCalculator(ore, totalMBWanted) // outputs everything in results and outputs the max value to the console
+   ```
+   ```js
+   // min/max - min/max percentages 
+   // prints how much of each ore you need to create of the alloy and the total it will make in the percentages given
+   TwoMetalAlloyCalculator(Ore1, Ore2, Ore1Min, Ore1Max, Ore2Min, Ore2Max)
    ```
    ```js
    // BloomerySize = number of items the bloomery can hold (max/default 24)

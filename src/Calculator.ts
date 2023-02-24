@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable no-unused-vars */
-function calculateOres(ore: Ores, total?: number, bypass100max = false): OreResults {
+export function calculateOres(ore: Ores, total?: number, bypass100max = false): OreResults {
     let max15s = ore.PoorOre;
     let max25s = ore.NormalOre;
     let max35s = ore.RichOre;
@@ -42,8 +44,11 @@ function calculateOres(ore: Ores, total?: number, bypass100max = false): OreResu
 }
 
 
-function outputCalculated(total: number, results: Ores[], max: Ores) {
+export function outputCalculated(ore: Ores, total: number, bypass100max = false) {
     let output = "";
+    let calculated = calculateOres(ore, total, bypass100max);
+    let results = calculated.results;
+    let max = calculated.max;
 
     if (results.length === 0) {
         output += "It is impossible to add up to " + total + "\n";
@@ -51,15 +56,15 @@ function outputCalculated(total: number, results: Ores[], max: Ores) {
         output += "Possible combinations:\n";
         for (let i = 0; i < results.length; i++) {
             output +=
-      "Combination " +
-      (i + 1) +
-      ": " +
-      results[i].PoorOre +
-      " 15s, " +
-      results[i].NormalOre +
-      " 25s, " +
-      results[i].RichOre +
-      " 35s\n";
+    "Combination " +
+    (i + 1) +
+    ": " +
+    results[i].PoorOre +
+    " 15s, " +
+    results[i].NormalOre +
+    " 25s, " +
+    results[i].RichOre +
+    " 35s\n";
         }
     }
 
@@ -69,7 +74,7 @@ function outputCalculated(total: number, results: Ores[], max: Ores) {
     console.log(output);
 }
 
-function TwoMetalAlloy(ore1: Ores, ore2: Ores, ore1ratio: number, ore2ratio:number) {
+export function TwoMetalAlloy(ore1: Ores, ore2: Ores, ore1ratio: number, ore2ratio:number): TwoMetalAlloyValue | null {
     if (ore2.PoorOre > ore1.PoorOre) {
         ore2.PoorOre = ore1.PoorOre;
     } else {
@@ -106,23 +111,42 @@ function TwoMetalAlloy(ore1: Ores, ore2: Ores, ore1ratio: number, ore2ratio:numb
             if (CalculatedAlloyOre1.results[0] != undefined) break;
         }
     }
-     
+   
     if (CalculatedAlloyOre2 == undefined || CalculatedAlloyOre1 == undefined || CalculatedAlloyOre1.results[0] == undefined || CalculatedAlloyOre2.results[0] == undefined) {
+        console.log("This is impossible");
+        return null;
+    }
+    return {ore1: CalculatedAlloyOre1.results[0], ore2: CalculatedAlloyOre2.results[0]};
+}
+// this will probably be terrible when doing more than two metals as its just brute force
+export function TwoMetalAlloyCalculator(ore1: Ores, ore2: Ores, ore1Min: number, ore1Max: number, ore2Min:number, ore2Max:number) {
+    let v: {ore1: Ores, ore2: Ores, ore1Perc: number, ore2Perc:number, total:number} | null = null;
+    for (let i = ore1Min; i <= ore1Max; i = i+0.0001) {
+        for (let j = ore2Min; j <= ore2Max; j = j+0.0001) {
+            i = parseFloat(i.toFixed(4)); // 4 decimals are probably fine right, cant go more otherwise way too slow lmao
+            j = parseFloat(j.toFixed(4));
+            if (i+j > 1) {
+                continue;
+            }
+            let value = TwoMetalAlloy(ore1, ore2, i, j);
+            if (value == null) continue;
+            let total = value.ore1.PoorOre * 15 + value.ore1.NormalOre * 25 + value.ore1.RichOre * 35 + value.ore2.PoorOre * 15 + value.ore2.NormalOre * 25 + value.ore2.RichOre * 35;
+            if (total % 100 == 0 && (v == null || v.total < total)) {
+                v = {ore1: value.ore1, ore2: value.ore2, ore1Perc: i, ore2Perc: j, total: total};
+            }
+        }
+    }
+    if (v == null) {
         console.log("This is impossible");
         return;
     }
 
-    // output stuff
-    let totalore1mb = CalculatedAlloyOre1.results[0].PoorOre * 15 + CalculatedAlloyOre1.results[0].NormalOre * 25 + CalculatedAlloyOre1.results[0].RichOre * 35;
-    let totalore2mb = CalculatedAlloyOre2.results[0].PoorOre * 15 + CalculatedAlloyOre2.results[0].NormalOre * 25 + CalculatedAlloyOre2.results[0].RichOre * 35;
-    let totalmb = totalore1mb + totalore2mb;
-
-    console.log(`${ore1.Name} required: ${CalculatedAlloyOre1.results[0].PoorOre} Poor, ${CalculatedAlloyOre1.results[0].NormalOre} Normal, ${CalculatedAlloyOre1.results[0].RichOre} Rich (${totalore1mb/totalmb}%)`);
-    console.log(`${ore2.Name} required: ${CalculatedAlloyOre2.results[0].PoorOre} Poor, ${CalculatedAlloyOre2.results[0].NormalOre} Normal, ${CalculatedAlloyOre2.results[0].RichOre} Rich (${totalore2mb/totalmb}%)`);
-    console.log(`Total: ${totalmb}mb`);
+    console.log(`${ore1.Name} required: ${v.ore1.PoorOre} Poor, ${v.ore1.NormalOre} Normal, ${v.ore1.RichOre} Rich (${v.ore1Perc}%)`);
+    console.log(`${ore2.Name} required: ${v.ore2.PoorOre} Poor, ${v.ore2.NormalOre} Normal, ${v.ore2.RichOre} Rich (${v.ore2Perc}%)`);
+    console.log(`Total: ${v.total}mb`);
 }
 
-function BloomeryCalculator(iron:Ores, bloomeryCapacity = 24) {
+export function BloomeryCalculator(iron:Ores, bloomeryCapacity = 24) {
     // max 24 ore and 24 charcoal
     let calculatedIron = calculateOres(iron, undefined);
     let itemswithincapacity: Ores[] = [];
@@ -132,7 +156,7 @@ function BloomeryCalculator(iron:Ores, bloomeryCapacity = 24) {
             itemswithincapacity.push(hundred);
         }
     });
-
+  
     itemswithincapacity.sort((a, b) => { return b.sum! - a.sum!; }); // sort by highest-lowest
     let maxsum = itemswithincapacity[0].sum!;
     itemswithincapacity.forEach(hundred => {
@@ -144,47 +168,3 @@ function BloomeryCalculator(iron:Ores, bloomeryCapacity = 24) {
         }
     });
 }
-
-import * as amounts from "./amounts.json";
-let data: IAmounts = amounts;
-console.log("Tin:\n");
-let tinCalculated = calculateOres(data.Tin, 100);
-outputCalculated(100, tinCalculated.results, tinCalculated.max);
-
-console.log("\nCopper:\n");
-let copperCalculated = calculateOres(data.Copper, 100);
-outputCalculated(100, copperCalculated.results, copperCalculated.max);
-console.log("\nBronze 12:88 :\n");
-
-TwoMetalAlloy(data.Tin, data.Copper, 0.12, 0.88);
-console.log("\nBronze 10:90 :\n");
-TwoMetalAlloy(data.Tin, data.Copper, 0.1, 0.9);
-console.log("\nBronze 8:92 :\n");
-TwoMetalAlloy(data.Tin, data.Copper, 0.08, 0.92);
-
-
-console.log("\nIron:\n");
-BloomeryCalculator(data.Iron);
-
-
-interface Ores {
-    PoorOre: number;
-    NormalOre: number;
-    RichOre: number;
-    Name: string;
-    sum?: number;
-}
-
-interface OreResults {
-    results: Ores[];
-    max: Ores;
-    hundredarray: Ores[];
-}
-
-interface IAmounts {
-    Tin: Ores;
-    Copper: Ores;
-    Iron: Ores;
-    Zinc: Ores;
-}
-
