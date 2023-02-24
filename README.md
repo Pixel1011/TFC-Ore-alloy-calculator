@@ -24,7 +24,7 @@
    ```
    ```js
    // min/max - min/max percentages 
-   // prints how much of each ore you need to create of the alloy and the total it will make in the percentages given
+   // prints how much of each ore you need to create the alloy and the total it will make in the percentages given
    TwoMetalAlloyCalculator(Ore1, Ore2, Ore1Min, Ore1Max, Ore2Min, Ore2Max)
    ```
    ```js
