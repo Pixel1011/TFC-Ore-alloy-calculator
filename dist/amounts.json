@@ -1,0 +1,26 @@
+{
+    "Copper": {
+        "PoorOre": 59,
+        "NormalOre": 1,
+        "RichOre": 0,
+        "Name": "Copper"
+    },
+    "Tin": {
+        "PoorOre": 66,
+        "NormalOre": 198,
+        "RichOre": 125,
+        "Name": "Tin"
+    },
+    "Iron": {
+        "PoorOre": 192,
+        "NormalOre": 188,
+        "RichOre": 74,
+        "Name": "Iron"
+    },
+    "Zinc": {
+        "PoorOre": 46,
+        "NormalOre": 75,
+        "RichOre": 56,
+        "Name": "Zinc"
+    }
+}

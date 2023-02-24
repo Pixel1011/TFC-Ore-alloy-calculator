@@ -1,0 +1,17 @@
+{
+  "name": "ore-calculator",
+  "version": "1.0.0",
+  "description": "calculates how much can be made with your ore",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pixel",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^18.14.0",
+    "@typescript-eslint/eslint-plugin": "^5.53.0",
+    "@typescript-eslint/parser": "^5.53.0",
+    "eslint": "^8.34.0"
+  }
+}
