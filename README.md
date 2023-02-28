@@ -2,7 +2,7 @@
 ~~because im lazy cant cant be bothered to do the math~~
 ## Features
   - Calculates how much ore you need to create a certain amount of mb of metal
-  - 
+
   - Calculates the max number of ingots (or the max ) you can create with your metal 
 
   - Calculates Any 2 Metal alloys
@@ -18,6 +18,7 @@
   - Run ``npm i``
   - Add ore counts to the amounts.json file in the dist folder, or if using typescript, the amounts.json file in the src folder
   - Run ``node ./dist/example.js``
+
   ### Or, make your own script
    ```js
    // ore = { PoorOre: 0, NormalOre: 0, RichOre: 0 } // data from the amounts.json file
@@ -30,10 +31,9 @@
     outputCalculator(ore, totalMBWanted); // outputs min/max ore combinations and outputs the max value to the console
    ```
    ```js
-      // eg
-      
-      // ore1ratio = {min: 0.08, max: 0.12}
-      // ore2ratio = {min: 0.88, max: 0.92}
+    // ore1 and ore2 are metals from the amounts.json file
+    // ore1ratio = {min: 0.08, max: 0.12}
+    // ore2ratio = {min: 0.88, max: 0.92}
 
    let temp = TwoMetalAlloy(ore1, ore2, ore1ratio, ore2ratio);
    if (temp != null) outputCalculatedAlloy(temp); // outputs max amount of alloy you can make with the ore you have
