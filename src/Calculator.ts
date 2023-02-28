@@ -13,11 +13,12 @@ export function calculateOres(ore: Ores, total?: number, bypass100max = false): 
         for (let num25s = 0; num25s <= max25s; num25s++) {
             for (let num35s = 0; num35s <= max35s; num35s++) {
                 let sum = num15s * 15 + num25s * 25 + num35s * 35;
-                if (sum === total && total !== undefined) {
+                if (total !== undefined && sum === total) {
                     results.push({
                         PoorOre: num15s,
                         NormalOre: num25s,
                         RichOre: num35s,
+                        sum: sum, 
                         Name: ore.Name
                     });
                 }
@@ -43,28 +44,142 @@ export function calculateOres(ore: Ores, total?: number, bypass100max = false): 
     return {results: results, max: max, hundredarray: hundredarray};
 }
 
-
-export function outputCalculated(ore: Ores, total: number, bypass100max = false) {
+export function outputCalculated(ore: Ores, total?: number, bypass100max = false) {
     let output = "";
     let calculated = calculateOres(ore, total, bypass100max);
     let results = calculated.results;
     let max = calculated.max;
 
-    if (results.length === 0) {
-        output += "It is impossible to add up to " + total + "\n";
+    let leastRich: Ores | undefined;
+    let leastNormal: Ores | undefined;
+    let leastPoor: Ores | undefined;
+
+    let maxRich: Ores | undefined;
+    let maxNormal: Ores | undefined;
+    let maxPoor: Ores | undefined;
+    if (results.length > 0) {
+        calculated.results.forEach(r => {
+            if (maxRich == undefined || r.RichOre > maxRich.RichOre && r.RichOre > 0) {
+                maxRich = r;
+            }
+            if (maxNormal == undefined || r.NormalOre > maxNormal.NormalOre && r.NormalOre > 0) {
+                maxNormal = r;
+            }
+            if (maxPoor == undefined || r.PoorOre > maxPoor.PoorOre && r.PoorOre > 0) {
+                maxPoor = r;
+            }
+            if (leastRich == undefined || r.RichOre < leastRich.RichOre && r.RichOre > 0) {
+                leastRich = r;
+            }
+            if (leastNormal == undefined || r.NormalOre < leastNormal.NormalOre && r.NormalOre > 0) {
+                leastNormal = r;
+            }
+            if (leastPoor == undefined || r.PoorOre < leastPoor.PoorOre && r.PoorOre > 0) {
+                leastPoor = r;
+            }
+        });
+        if (leastRich != undefined) {
+            output += "\nLeast rich:\n";
+            output += "Combination: " + leastRich.PoorOre + " 15s, " + leastRich.NormalOre + " 25s, " + leastRich.RichOre + " 35s\n";
+            output += "Total value: " + leastRich.sum! + "\n";
+        }
+        if (leastNormal != undefined) {
+            output += "\nLeast normal:\n";
+            output += "Combination: " + leastNormal.PoorOre + " 15s, " + leastNormal.NormalOre + " 25s, " + leastNormal.RichOre + " 35s\n";
+            output += "Total value: " + leastNormal.sum! + "\n";
+        }
+        if (leastPoor != undefined) {
+            output += "\nLeast poor:\n";
+            output += "Combination: " + leastPoor.PoorOre + " 15s, " + leastPoor.NormalOre + " 25s, " + leastPoor.RichOre + " 35s\n";
+            output += "Total value: " + leastPoor.sum! + "\n";
+        }
+        if (maxRich != undefined) {
+            output += "\nMost rich:\n";
+            output += "Combination: " + maxRich.PoorOre + " 15s, " + maxRich.NormalOre + " 25s, " + maxRich.RichOre + " 35s\n";
+            output += "Total value: " + maxRich.sum! + "\n";
+        }
+        if (maxNormal != undefined) {
+            output += "\nMost normal:\n";
+            output += "Combination: " + maxNormal.PoorOre + " 15s, " + maxNormal.NormalOre + " 25s, " + maxNormal.RichOre + " 35s\n";
+            output += "Total value: " + maxNormal.sum! + "\n";
+        }
+        if (maxPoor != undefined) {
+            output += "\nMost poor:\n";
+            output += "Combination: " + maxPoor.PoorOre + " 15s, " + maxPoor.NormalOre + " 25s, " + maxPoor.RichOre + " 35s\n";
+            output += "Total value: " + maxPoor.sum! + "\n";
+        }
     } else {
-        output += "Possible combinations:\n";
-        for (let i = 0; i < results.length; i++) {
-            output +=
-    "Combination " +
-    (i + 1) +
-    ": " +
-    results[i].PoorOre +
-    " 15s, " +
-    results[i].NormalOre +
-    " 25s, " +
-    results[i].RichOre +
-    " 35s\n";
+        output += "It is impossible to add up to " + total + "\n";
+    }
+
+    output += "\nMaximum ingots:\n";
+    output += "Combination: " + max.PoorOre + " 15s, " + max.NormalOre + " 25s, " + max.RichOre + " 35s\n";
+    output += "Total value: " + max.sum! / 100 + " Ingots";
+    console.log(output);
+}
+// same function as above but you have to run calculateOres yourself
+export function outputCalculatedMetal(calculated: OreResults) {
+    let output = "";
+    let results = calculated.results;
+    let max = calculated.max;
+
+    let leastRich: Ores | undefined;
+    let leastNormal: Ores | undefined;
+    let leastPoor: Ores | undefined;
+
+    let maxRich: Ores | undefined;
+    let maxNormal: Ores | undefined;
+    let maxPoor: Ores | undefined;
+    if (results.length > 0) {
+        calculated.results.forEach(r => {
+            if (maxRich == undefined || r.RichOre > maxRich.RichOre && r.RichOre > 0) {
+                maxRich = r;
+            }
+            if (maxNormal == undefined || r.NormalOre > maxNormal.NormalOre && r.NormalOre > 0) {
+                maxNormal = r;
+            }
+            if (maxPoor == undefined || r.PoorOre > maxPoor.PoorOre && r.PoorOre > 0) {
+                maxPoor = r;
+            }
+            if (leastRich == undefined || r.RichOre < leastRich.RichOre && r.RichOre > 0) {
+                leastRich = r;
+            }
+            if (leastNormal == undefined || r.NormalOre < leastNormal.NormalOre && r.NormalOre > 0) {
+                leastNormal = r;
+            }
+            if (leastPoor == undefined || r.PoorOre < leastPoor.PoorOre && r.PoorOre > 0) {
+                leastPoor = r;
+            }
+        });
+        if (leastRich != undefined) {
+            output += "\nLeast rich:\n";
+            output += "Combination: " + leastRich.PoorOre + " 15s, " + leastRich.NormalOre + " 25s, " + leastRich.RichOre + " 35s\n";
+            output += "Total value: " + leastRich.sum! + "\n";
+        }
+        if (leastNormal != undefined) {
+            output += "\nLeast normal:\n";
+            output += "Combination: " + leastNormal.PoorOre + " 15s, " + leastNormal.NormalOre + " 25s, " + leastNormal.RichOre + " 35s\n";
+            output += "Total value: " + leastNormal.sum! + "\n";
+        }
+        if (leastPoor != undefined) {
+            output += "\nLeast poor:\n";
+            output += "Combination: " + leastPoor.PoorOre + " 15s, " + leastPoor.NormalOre + " 25s, " + leastPoor.RichOre + " 35s\n";
+            output += "Total value: " + leastPoor.sum! + "\n";
+        }
+        if (maxRich != undefined) {
+            output += "\nMost rich:\n";
+            output += "Combination: " + maxRich.PoorOre + " 15s, " + maxRich.NormalOre + " 25s, " + maxRich.RichOre + " 35s\n";
+            output += "Total value: " + maxRich.sum! + "\n";
+        }
+        if (maxNormal != undefined) {
+            output += "\nMost normal:\n";
+            output += "Combination: " + maxNormal.PoorOre + " 15s, " + maxNormal.NormalOre + " 25s, " + maxNormal.RichOre + " 35s\n";
+            output += "Total value: " + maxNormal.sum! + "\n";
+        }
+        if (maxPoor != undefined) {
+            output += "\nMost poor:\n";
+            output += "Combination: " + maxPoor.PoorOre + " 15s, " + maxPoor.NormalOre + " 25s, " + maxPoor.RichOre + " 35s\n";
+            output += "Total value: " + maxPoor.sum! + "\n";
         }
     }
 
@@ -74,78 +189,50 @@ export function outputCalculated(ore: Ores, total: number, bypass100max = false)
     console.log(output);
 }
 
-export function TwoMetalAlloy(ore1: Ores, ore2: Ores, ore1ratio: number, ore2ratio:number): TwoMetalAlloyValue | null {
-    if (ore2.PoorOre > ore1.PoorOre) {
-        ore2.PoorOre = ore1.PoorOre;
-    } else {
-        ore1.PoorOre = ore2.PoorOre;
-    }
+export function outputCalculatedAlloy(calculated: TwoMetalAlloyTestValue) {
+    
+    let output = "";
+    let ore1 = calculated.ore1;
+    let ore2 = calculated.ore2;
+    let outore1 = ore1.results[0];
+    let outore2 = ore2.results[0];
 
-    if (ore2.NormalOre > ore1.NormalOre) {
-        ore2.NormalOre = ore1.NormalOre;
-    } else {
-        ore1.NormalOre = ore2.NormalOre;
-    }
+    // there only seemed to ever be one result so
+    output += `${outore1.Name}: ${outore1.RichOre} Rich, ${outore1.NormalOre} Normal, ${outore1.PoorOre} Poor\n`;
+    output += `${outore2.Name}: ${outore2.RichOre} Rich, ${outore2.NormalOre} Normal, ${outore2.PoorOre} Poor\n`;
+    output += `Total value: ${outore1.sum! + outore2.sum!} (${outore1.sum! / (outore1.sum! + outore2.sum!)}% ${outore1.Name}, ${outore2.sum! / (outore1.sum! + outore2.sum!)}% ${outore2.Name}) \n`;
 
-    if (ore2.RichOre > ore1.RichOre) {
-        ore2.RichOre = ore1.RichOre;
-    } else {
-        ore1.RichOre = ore2.RichOre;
-    }
+    // fixed sum so no need to give max
+    console.log(output);
+}
 
+export function TwoMetalAlloy(ore1: Ores, ore2: Ores, ore1ratio: Ratio, ore2ratio:Ratio): TwoMetalAlloyTestValue | null {
     let ore1max = ore1.PoorOre * 15 + ore1.NormalOre * 25 + ore1.RichOre * 35;
     let ore2max = ore2.PoorOre * 15 + ore2.NormalOre * 25 + ore2.RichOre * 35;
-    let CalculatedAlloyOre1: OreResults | undefined, CalculatedAlloyOre2: OreResults | undefined;
+    for (let ore1I = ore1max; ore1I >= 0; ore1I--) {
+        for (let ore2I = ore2max; ore2I >= 0; ore2I--) {
+            let total = ore1I + ore2I;
+            let percOfOre1 = ore1I / total;
+            let percOfOre2 = ore2I / total;
 
-    // ore2
-    for (let i = 0; i <= ore2max; i++) {
-        if (Number.isInteger((ore2max - i) * ore2ratio)) {
-            CalculatedAlloyOre2 = calculateOres(ore2, (ore2max - i) * ore2ratio);
-            if (CalculatedAlloyOre2.results[0] != undefined) break;
+            let ore1WithinPercentages = (percOfOre1 >= ore1ratio.min && percOfOre1 <= ore1ratio.max);
+            let ore2WithinPercentages = (percOfOre2 >= ore2ratio.min && percOfOre2 <= ore2ratio.max);
+            let isMultipleof100 = (total % 100 == 0);
+
+            if (!ore1WithinPercentages || !ore2WithinPercentages || !isMultipleof100) continue;
+            let calculatedOre1 = calculateOres(ore1, ore1I);
+            let calculatedOre2 = calculateOres(ore2, ore2I);
+            if (calculatedOre1.results[0] == undefined && calculatedOre2.results[0] == undefined) continue;
+
+            return {ore1: calculatedOre1, ore2: calculatedOre2};
         }
+        
     }
-    // ore1
-    for (let i = 0; i <= ore1max; i++) {
-        if (Number.isInteger((ore1max - i) * ore1ratio)) {
-            CalculatedAlloyOre1 = calculateOres(ore1, (ore1max - i)* ore1ratio);
-            if (CalculatedAlloyOre1.results[0] != undefined) break;
-        }
-    }
-   
-    if (CalculatedAlloyOre2 == undefined || CalculatedAlloyOre1 == undefined || CalculatedAlloyOre1.results[0] == undefined || CalculatedAlloyOre2.results[0] == undefined) {
-        console.log("This is impossible");
-        return null;
-    }
-    return {ore1: CalculatedAlloyOre1.results[0], ore2: CalculatedAlloyOre2.results[0]};
+    return null;
 }
-// this will probably be terrible when doing more than two metals as its just brute force
-export function TwoMetalAlloyCalculator(ore1: Ores, ore2: Ores, ore1Min: number, ore1Max: number, ore2Min:number, ore2Max:number) {
-    let v: {ore1: Ores, ore2: Ores, ore1Perc: number, ore2Perc:number, total:number} | null = null;
-    for (let i = ore1Min; i <= ore1Max; i = i+0.0001) {
-        for (let j = ore2Min; j <= ore2Max; j = j+0.0001) {
-            i = parseFloat(i.toFixed(4)); // 4 decimals are probably fine right, cant go more otherwise way too slow lmao
-            j = parseFloat(j.toFixed(4));
-            if (i+j > 1) {
-                continue;
-            }
-            let value = TwoMetalAlloy(ore1, ore2, i, j);
-            if (value == null) continue;
-            let total = value.ore1.PoorOre * 15 + value.ore1.NormalOre * 25 + value.ore1.RichOre * 35 + value.ore2.PoorOre * 15 + value.ore2.NormalOre * 25 + value.ore2.RichOre * 35;
-            if (total % 100 == 0 && (v == null || v.total < total)) {
-                v = {ore1: value.ore1, ore2: value.ore2, ore1Perc: i, ore2Perc: j, total: total};
-            }
-        }
-    }
-    if (v == null) {
-        console.log("This is impossible");
-        return;
-    }
-
-    console.log(`${ore1.Name} required: ${v.ore1.PoorOre} Poor, ${v.ore1.NormalOre} Normal, ${v.ore1.RichOre} Rich (${v.ore1Perc}%)`);
-    console.log(`${ore2.Name} required: ${v.ore2.PoorOre} Poor, ${v.ore2.NormalOre} Normal, ${v.ore2.RichOre} Rich (${v.ore2Perc}%)`);
-    console.log(`Total: ${v.total}mb`);
-}
-
+ 
+// not really required, just use cast iron ingots/double ingots, and use calculateOres to figure out how many of those you can make
+// same thing with blast furnace
 export function BloomeryCalculator(iron:Ores, bloomeryCapacity = 24) {
     // max 24 ore and 24 charcoal
     let calculatedIron = calculateOres(iron, undefined);
@@ -168,3 +255,8 @@ export function BloomeryCalculator(iron:Ores, bloomeryCapacity = 24) {
         }
     });
 }
+
+// just for note
+let alloys = {
+    "Bronze": {tin: {min: 0.08, max: 0.12}, copper: {min: 0.88, max: 0.92}},
+};

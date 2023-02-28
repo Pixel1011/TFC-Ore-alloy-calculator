@@ -26,12 +26,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Calculator_1 = require("./Calculator");
 const amounts = __importStar(require("./amounts.json"));
 let data = amounts;
-console.log("Tin:\n");
-(0, Calculator_1.outputCalculated)(data.Tin, 100);
-console.log("\nCopper:\n");
-(0, Calculator_1.outputCalculated)(data.Copper, 100);
-console.log("\nBronze:\n");
-(0, Calculator_1.TwoMetalAlloyCalculator)(data.Tin, data.Copper, 0.08, 0.12, 0.88, 0.92);
-console.log("\nIron:\n");
-(0, Calculator_1.BloomeryCalculator)(data.Iron);
+let val = (0, Calculator_1.TwoMetalAlloy)(data.Tin, data.Copper, { min: 0.08, max: 0.12 }, { min: 0.88, max: 0.92 });
+if (val != null) {
+    (0, Calculator_1.outputCalculatedAlloy)(val);
+}
 //# sourceMappingURL=example.js.map

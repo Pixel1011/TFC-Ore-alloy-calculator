@@ -13,8 +13,8 @@
     },
     "Iron": {
         "PoorOre": 192,
-        "NormalOre": 188,
-        "RichOre": 74,
+        "NormalOre": 176,
+        "RichOre": 14,
         "Name": "Iron"
     },
     "Zinc": {
@@ -22,5 +22,29 @@
         "NormalOre": 75,
         "RichOre": 56,
         "Name": "Zinc"
+    },
+    "Silver": {
+        "PoorOre": 129,
+        "NormalOre": 126,
+        "RichOre": 32,
+        "Name": "Silver"
+    },
+    "Gold": {
+        "PoorOre": 63,
+        "NormalOre": 124,
+        "RichOre": 57,
+        "Name": "Gold"
+    },
+    "Nickel": {
+        "PoorOre": 126,
+        "NormalOre": 59,
+        "RichOre": 23,
+        "Name": "Nickel"
+    },
+    "Bismuth": {
+        "PoorOre": 67,
+        "NormalOre": 155,
+        "RichOre": 82,
+        "Name": "Bismuth"
     }
 }

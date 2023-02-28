@@ -1,39 +1,52 @@
 # Terrafirmacraft Ore/Alloy Calculator
 ~~because im lazy cant cant be bothered to do the math~~
 ## Features
-  - Calculates how much copper/tin ore you need to create 100 (or any amount/max amount) mb of metal
+  - Calculates how much ore you need to create a certain amount of mb of metal
+  - 
+  - Calculates the max number of ingots (or the max ) you can create with your metal 
 
-  - Calculates how much bronze you can make based off of how much ore you have
+  - Calculates Any 2 Metal alloys
 
   - Calculates how many raw iron blooms you can create based off of how much ore you have
   
   - I'll add other alloys when i get to them in game
  
 ## Usage
-  - Kinda impossible to use if you dont know typescript/javascript
-  - Add your ore counts to the amounts.json file
+  - Download the repo
+  - Make sure [Node.js](https://nodejs.org/en/) is installed
+  - Open a terminal in the repo folder
+  - Run ``npm i``
+  - Add ore counts to the amounts.json file in the dist folder, or if using typescript, the amounts.json file in the src folder
+  - Run ``node ./dist/example.js``
+  ### Or, make your own script
    ```js
-   // ore = { PoorOre: 0, NormalOre: 0, RichOre: 0 }
+   // ore = { PoorOre: 0, NormalOre: 0, RichOre: 0 } // data from the amounts.json file
    let temp = calculateOres(Ore, totalMBWanted);
    let results = temp.results; // array of combinations of ores that add up to the totalMBWanted
    let max = temp.max; // max amount of metal you can make with the ore you have
    let hundredarray = temp.hundredarray; // array of combinations of ores that add up to 100mb
    ```
    ```js
-    outputCalculator(ore, totalMBWanted) // outputs everything in results and outputs the max value to the console
+    outputCalculator(ore, totalMBWanted); // outputs min/max ore combinations and outputs the max value to the console
    ```
    ```js
-   // min/max - min/max percentages 
-   // prints how much of each ore you need to create the alloy and the total it will make in the percentages given
-   TwoMetalAlloyCalculator(Ore1, Ore2, Ore1Min, Ore1Max, Ore2Min, Ore2Max)
+      // eg
+      
+      // ore1ratio = {min: 0.08, max: 0.12}
+      // ore2ratio = {min: 0.88, max: 0.92}
+
+   let temp = TwoMetalAlloy(ore1, ore2, ore1ratio, ore2ratio);
+   if (temp != null) outputCalculatedAlloy(temp); // outputs max amount of alloy you can make with the ore you have
    ```
    ```js
    // BloomerySize = number of items the bloomery can hold (max/default 24)
-   BloomeryCalculator(Ore, BloomerySize)
-   // BloomerySize = number of items the bloomery can hold (max/default 24)
+   // outputs number of raw iron blooms you can make with the ore you have
+   // kinda useless since you should just use double ingots for most amount witht the least amount of charcoal
    BloomeryCalculator(Ore, BloomerySize)
    ```
 
+## TODO
+  - Add alloys that need more than 2 metals
+  - Add ingot/double ingot support
 
-
-Created for [Gravitas](https://www.curseforge.com/minecraft/modpacks/all-the-mods-gravitas)
+Created while playing [Gravitas](https://www.curseforge.com/minecraft/modpacks/all-the-mods-gravitas) (great modpack btw 😊)

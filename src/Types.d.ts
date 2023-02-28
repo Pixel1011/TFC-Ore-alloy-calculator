@@ -1,6 +1,15 @@
-interface TwoMetalAlloyValue {
+interface TwoMetals {
   ore1: Ores;
   ore2: Ores;
+}
+interface TwoMetalAlloyTestValue {
+  ore1: OreResults;
+  ore2: OreResults;
+}
+
+interface Ratio {
+  min: number;
+  max: number;
 }
 
 interface Ores {
@@ -22,4 +31,13 @@ interface IAmounts {
   Copper: Ores;
   Iron: Ores;
   Zinc: Ores;
+  Silver: Ores;
+  Gold: Ores;
+  Nickel: Ores;
+  Bismuth: Ores;
+}
+
+interface Alloy {
+  name: string;
+  
 }
