@@ -2,9 +2,12 @@ interface TwoMetals {
   ore1: Ores;
   ore2: Ores;
 }
-interface TwoMetalAlloyTestValue {
-  ore1: OreResults;
-  ore2: OreResults;
+interface AlloyOutput {
+  ores: OreResults[];
+}
+interface AlloyPart {
+  ore: Ores;
+  ratio: Ratio;
 }
 
 interface Ratio {
@@ -16,6 +19,8 @@ interface Ores {
   PoorOre: number;
   NormalOre: number;
   RichOre: number;
+  Ingots: number;
+  DoubleIngots: number;
   Name: string;
   sum?: number;
 }
@@ -39,5 +44,5 @@ interface IAmounts {
 
 interface Alloy {
   name: string;
-  
+
 }

@@ -1,15 +1,15 @@
 
-import {outputCalculated, BloomeryCalculator, outputCalculatedAlloy, TwoMetalAlloy} from "./Calculator";
+import {outputCalculated, BloomeryCalculator, outputCalculatedAlloy, TwoMetalAlloy, ThreeMetalAlloy} from "./Calculator";
 import * as amounts from "./amounts.json";
 let data: IAmounts = amounts;
 
-// output what it takes to calculate 100mb of tin
+// output what it takes to calculate 100mb of tin 
 console.log("Tin:\n");
-outputCalculated(data.Tin, 100);
+//outputCalculated(data.Tin, 100);
+outputCalculated(data.Tin);
 
-// output what it takes to calculate 100mb of copper
 console.log("\nCopper:\n");
-outputCalculated(data.Copper, 100);
+outputCalculated(data.Copper);
 
 // output how much iron you can make with the given amounts
 console.log("\nIron:\n");
@@ -32,8 +32,16 @@ outputCalculated(data.Nickel);
 
 console.log("\nBismuth:\n");
 outputCalculated(data.Bismuth);
+console.log("\nBronze:\n");
 
-let val = TwoMetalAlloy(data.Tin, data.Copper, {min: 0.08, max: 0.12}, {min:0.88, max: 0.92});
+let val = TwoMetalAlloy({ore: data.Tin, ratio: {min: 0.08, max: 0.12}}, {ore: data.Copper, ratio: {min:0.88, max: 0.92}});
 if (val != null) {
     outputCalculatedAlloy(val);
+}
+
+
+console.log("\nBismuth Bronze:\n");
+let val1 = ThreeMetalAlloy({ore: data.Bismuth, ratio: {min: 0.1, max: 0.2}}, {ore: data.Zinc, ratio: {min: 0.2, max: 0.3}}, {ore: data.Copper, ratio: {min: 0.5, max: 0.65}});
+if (val1 != null) {
+    outputCalculatedAlloy(val1);
 }

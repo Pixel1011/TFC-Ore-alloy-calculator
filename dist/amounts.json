@@ -1,50 +1,66 @@
 {
     "Copper": {
         "PoorOre": 59,
-        "NormalOre": 1,
-        "RichOre": 0,
+        "NormalOre": 71,
+        "RichOre": 109,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Copper"
     },
     "Tin": {
         "PoorOre": 66,
         "NormalOre": 198,
         "RichOre": 125,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Tin"
     },
     "Iron": {
         "PoorOre": 192,
         "NormalOre": 176,
         "RichOre": 14,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Iron"
     },
     "Zinc": {
         "PoorOre": 46,
         "NormalOre": 75,
         "RichOre": 56,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Zinc"
     },
     "Silver": {
         "PoorOre": 129,
         "NormalOre": 126,
         "RichOre": 32,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Silver"
     },
     "Gold": {
         "PoorOre": 63,
         "NormalOre": 124,
         "RichOre": 57,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Gold"
     },
     "Nickel": {
         "PoorOre": 126,
         "NormalOre": 59,
         "RichOre": 23,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Nickel"
     },
     "Bismuth": {
         "PoorOre": 67,
         "NormalOre": 155,
         "RichOre": 82,
+        "Ingots": 0,
+        "DoubleIngots": 0,
         "Name": "Bismuth"
     }
 }
